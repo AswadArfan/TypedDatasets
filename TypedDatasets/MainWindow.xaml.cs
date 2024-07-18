@@ -16,9 +16,11 @@ namespace TypedDatasets
     {
         NorthWIindDataSetTableAdapters.ProductsTableAdapter adpProds = new NorthWIindDataSetTableAdapters.ProductsTableAdapter();
         NorthWIindDataSetTableAdapters.CategoriesTableAdapter adpCats = new NorthWIindDataSetTableAdapters.CategoriesTableAdapter();
+        NorthWIindDataSetTableAdapters.ProductsWithCategoriesTableAdapter adpProdCats = new NorthWIindDataSetTableAdapters.ProductsWithCategoriesTableAdapter();
 
         NorthWIindDataSet.ProductsDataTable tblProds = new NorthWIindDataSet.ProductsDataTable();
         NorthWIindDataSet.CategoriesDataTable tblCats = new NorthWIindDataSet.CategoriesDataTable();
+        NorthWIindDataSet.ProductsWithCategoriesDataTable tblProdsCats = new NorthWIindDataSet.ProductsWithCategoriesDataTable();
         public MainWindow()
         {
             InitializeComponent();
@@ -109,6 +111,19 @@ namespace TypedDatasets
             cmbCategories.ItemsSource = tblCats;
             cmbCategories.DisplayMemberPath = "CategoryName";
             cmbCategories.SelectedValuePath = "CategoryID";
+        }
+
+        private void cmbCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int catId = (int)cmbCategories.SelectedValue;
+
+            tblProdsCats = adpProdCats.GetProductsByCatId(catId);
+            grdProducts.ItemsSource = tblProdsCats;
+        }
+
+        private void btnClearData_Click(object sender, RoutedEventArgs e)
+        {
+            cmbCategories.ItemsSource = null;
         }
     }
 }
