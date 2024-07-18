@@ -15,8 +15,10 @@ namespace TypedDatasets
     public partial class MainWindow : Window
     {
         NorthWIindDataSetTableAdapters.ProductsTableAdapter adpProds = new NorthWIindDataSetTableAdapters.ProductsTableAdapter();
+        NorthWIindDataSetTableAdapters.CategoriesTableAdapter adpCats = new NorthWIindDataSetTableAdapters.CategoriesTableAdapter();
 
         NorthWIindDataSet.ProductsDataTable tblProds = new NorthWIindDataSet.ProductsDataTable();
+        NorthWIindDataSet.CategoriesDataTable tblCats = new NorthWIindDataSet.CategoriesDataTable();
         public MainWindow()
         {
             InitializeComponent();
@@ -98,6 +100,15 @@ namespace TypedDatasets
             string name = txtName.Text;
             tblProds = adpProds.GetProductByName(name);
             grdProducts.ItemsSource = tblProds;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            tblCats = adpCats.GetCategories();
+
+            cmbCategories.ItemsSource = tblCats;
+            cmbCategories.DisplayMemberPath = "CategoryName";
+            cmbCategories.SelectedValuePath = "CategoryID";
         }
     }
 }
